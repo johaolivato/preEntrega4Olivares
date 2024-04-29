@@ -1,1 +1,1 @@
-
+Este proyecto consiste en una aplicación web que ayuda a profesionales independientes a calcular el valor de sus servicios freelance por día. La aplicación toma en cuenta diferentes áreas de trabajo, como desarrollo web, ADS, SEO, diseño, entre otros, así como la cantidad de días y horas de trabajo al mes que destinarán a ese cliente (específico a emitir boleta de honorarios,)
