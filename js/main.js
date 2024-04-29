@@ -1,67 +1,78 @@
-// Array para almacenar el historial de cálculos
-let historial = [];
-
-// Función para guardar resultados en el historial
-function guardarHistorial(monto, valorBruto, valorNeto) {
-    historial.push({ monto: monto, valorBruto: valorBruto, valorNeto: valorNeto });
-    localStorage.setItem('historial', JSON.stringify(historial)); // Almacenar en localStorage como JSON
+// Función para calcular el valor de trabajo freelance
+function calcularValorFreelance(datosUsuario) {
+    const cobrosMensuales = datosUsuario.desarrollo + datosUsuario.ads + datosUsuario.seo + datosUsuario.diseno + datosUsuario.copy + datosUsuario.ux + datosUsuario.ui + datosUsuario.asesoria;
+    const horasTrabajo = datosUsuario.horasTrabajo;
+    const diasTrabajo = datosUsuario.diasTrabajo;
+    const horasMes = 160; // 40 horas por semana * 4 semanas
+    const costoHora = cobrosMensuales / horasMes; 
+    const ingresoMinimo = costoHora * horasTrabajo * diasTrabajo;
+    return Math.floor(ingresoMinimo); // Redondear para obtener un número entero
 }
 
-// Función para calcular el valor bruto y líquido
-function calcularValor(monto) {
-    const retencion = 0.1375;
-    let retencionMonto = monto * retencion;
-    let valorBruto = monto + retencionMonto;
-    let valorNeto = monto - retencionMonto;
+// Función para mostrar el resultado con SweetAlert
+function mostrarResultado(nombre, valorFreelance) {
+    // Calcular retención aplicada del 13.75%
+    const retencion = Math.floor(valorFreelance * 0.1375);
+    // Calcular valor líquido (con retención)
+    const valorLiquido = valorFreelance - retencion;
+    // Calcular valor bruto (sin retención)
+    const valorBruto = valorFreelance + retencion;
 
-    return [valorBruto.toFixed(2), valorNeto.toFixed(2)]; // Redondear a dos decimales
-}
-
-// Función para mostrar el historial de cálculos
-function mostrarHistorial() {
-    if (historial.length === 0) {
-        alert("El historial está vacío.");
-        return;
-    }
-
-    let historialString = "Historial de cálculos:\n";
-    historial.forEach((registro, index) => {
-        historialString += "Registro " + (index + 1) + ":\n";
-        historialString += "Monto: $" + registro.monto + "\n";
-        historialString += "Valor Bruto: $" + registro.valorBruto + "\n";
-        historialString += "Valor Neto: $" + registro.valorNeto + "\n\n";
+    Swal.fire({
+        title: 'Resultado',
+        html: `
+        <h3>VALOR LIQUIDO</h3>
+        <p>${nombre}, debes hacer la Boleta por: $${valorLiquido}</p>
+        <p>Recibirás un pago de: $${valorFreelance}</p>
+        <p>Retención SII: $${retencion}</p>
+        <h3>VALOR BRUTO</h3>
+        <p>${nombre}, debes hacer la Boleta por: $${valorBruto}</p>
+        <p>Recibirás un pago de: $${valorFreelance}</p>
+        <p>Retención SII: $${retencion}</p>
+        `,
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
     });
-    alert(historialString);
 }
 
-// Función para buscar un registro en el historial por monto
-function buscarPorMonto(monto) {
-    return historial.find(registro => registro.monto === monto);
-}
+// Este bloque de código debe ejecutarse después de que se cargue el DOM
+document.addEventListener('DOMContentLoaded', function () {
+    // Capturar evento del botón Calcular
+    document.getElementById('calcularBtn').addEventListener('click', function() {
+        // Obtener valores de los campos de entrada
+        let nombre = document.getElementById('nombre').value;
+        let apellido = document.getElementById('apellido').value;
+        let email = document.getElementById('email').value;
+        let desarrollo = parseFloat(document.getElementById('desarrollo').value);
+        let ads = parseFloat(document.getElementById('ads').value);
+        let seo = parseFloat(document.getElementById('seo').value);
+        let diseno = parseFloat(document.getElementById('diseno').value);
+        let copy = parseFloat(document.getElementById('copy').value);
+        let ux = parseFloat(document.getElementById('ux').value);
+        let ui = parseFloat(document.getElementById('ui').value);
+        let asesoria = parseFloat(document.getElementById('asesoria').value);
+        let diasTrabajo = parseInt(document.getElementById('diasTrabajo').value);
+        let horasTrabajo = parseInt(document.getElementById('horasTrabajo').value);
 
-// Inicializar historial desde localStorage
-if (localStorage.getItem('historial')) {
-    historial = JSON.parse(localStorage.getItem('historial'));
-}
+        // Crear objeto con los datos del usuario
+        let datosUsuario = {
+            nombre: nombre,
+            apellido: apellido,
+            email: email,
+            desarrollo: desarrollo,
+            ads: ads,
+            seo: seo,
+            diseno: diseno,
+            copy: copy,
+            ux: ux,
+            ui: ui,
+            asesoria: asesoria,
+            diasTrabajo: diasTrabajo,
+            horasTrabajo: horasTrabajo
+        };
 
-// Capturar evento del botón Calcular
-document.getElementById('calcularBtn').addEventListener('click', function() {
-    let montoInput = document.getElementById('montoInput').value;
-    if (isNaN(montoInput) || montoInput === "") {
-        document.getElementById('resultado').innerText = "Por favor, ingresa un monto válido.";
-    } else {
-        let monto = parseFloat(montoInput);
-        let resultado = calcularValor(monto);
-        guardarHistorial(monto, resultado[0], resultado[1]);
-        document.getElementById('resultado').innerText = `El valor bruto que debes escribir en la boleta es: $${resultado[0]}\nEl valor líquido que recibirás es: $${resultado[1]}`;
-    }
-});
-
-// Capturar evento del usuario para enviar por mail
-document.getElementById('enviarEmailBtn').addEventListener('click', function() {
-    let email = prompt("Por favor, ingresa tu correo electrónico para enviar los resultados:");
-    if (email) {
-        // Código para envío del mail con los resultados
-        alert("Los resultados han sido enviados a: " + email);
-    }
+        // Calcular valor de trabajo freelance
+        let valorFreelance = calcularValorFreelance(datosUsuario);
+        mostrarResultado(nombre, valorFreelance);
+    });
 });

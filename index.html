@@ -4,13 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Freelance</title>
+    <!-- Enlace a la fuente "David Libre" desde Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=David+Libre&display=swap" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- Script para SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Script para Common Ninja -->
+    <script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
+    <!-- Componente de Common Ninja -->
+    <div class="commonninja_component pid-eeff17e1-8439-4b93-a8e5-6baa9e64facc"></div>
 </head>
 <body>
-    <h1>Calculadora Freelance de Johanna 2024</h1>
-    <label for="montoInput">Ingresa el monto:</label>
-    <input type="number" id="montoInput">
+    <!-- Título e introducción -->
+    <h1>Una pequeña ayuda para considerar qué cobrar y el monto para llenar tu boleta de honorarios</h1>
+    <p align="justify">¿Sabes el valor a cobrar en tu boleta de honorarios freelance? Esta calculadora te ayudará a desglosar los servicios realizados en tu trabajo y el cobro diario por cada uno.</p>
+    <p align="justify">Te doy el monto mensual que debes cobrar en tu boleta de honorarios, considerando la retención del SII del 13,75% para el 2024. (La retención la debe pagar tu cliente)</p>
+    <!-- Campos de entrada -->
+    <div class="card-container">
+        <div class="card">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre">
+        </div>
+        <div class="card">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido">
+        </div>
+        <div class="card">
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email">
+        </div>
+        <div class="card">
+            <label for="desarrollo">Desarrollo web:</label>
+            <input type="number" id="desarrollo">
+        </div>
+        <div class="card">
+            <label for="ads">ADS:</label>
+            <input type="number" id="ads">
+        </div>
+        <div class="card">
+            <label for="seo">SEO:</label>
+            <input type="number" id="seo">
+        </div>
+        <div class="card">
+            <label for="diseno">Diseño:</label>
+            <input type="number" id="diseno">
+        </div>
+        <div class="card">
+            <label for="copy">Copy:</label>
+            <input type="number" id="copy">
+        </div>
+        <div class="card">
+            <label for="ux">UX:</label>
+            <input type="number" id="ux">
+        </div>
+        <div class="card">
+            <label for="ui">UI:</label>
+            <input type="number" id="ui">
+        </div>
+        <div class="card">
+            <label for="asesoria">Asesoría:</label>
+            <input type="number" id="asesoria">
+        </div>
+    </div>
+    <!-- Título para la sección "¿Cuánto deseas trabajar?" -->
+    <h2>¿Cuánto deseas trabajar?</h2>
+    <!-- Campos de entrada para calcular los días y horas -->
+    <div class="card-container">
+        <div class="card">
+            <label for="diasTrabajo">Días de trabajo al mes:</label>
+            <input type="number" id="diasTrabajo">
+        </div>
+        <div class="card">
+            <label for="horasTrabajo">Horas de trabajo al mes:</label>
+            <input type="number" id="horasTrabajo">
+        </div>
+    </div>
+    <!-- Botón de cálculo y contenedor para el resultado -->
     <button id="calcularBtn">Calcular</button>
     <div id="resultado"></div>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+        <p>Derechos de autor © 2024 Consultora de Marketing | WhatsApp: +56 9 88090724 | Correo: <a href="mailto:jo@consultorademarketing.cl">jo@consultorademarketing.cl</a></p>
+    </footer>
+
+    <!-- Script para la lógica de la calculadora -->
     <script src="./js/main.js"></script>
 </body>
 </html>
