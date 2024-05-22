@@ -1,23 +1,24 @@
-// Función para calcular el valor de trabajo freelance
+// Aplicacion de objetos y Arrays
 function calcularValorFreelance(datosUsuario) {
-    const cobrosMensuales = datosUsuario.desarrollo + datosUsuario.ads + datosUsuario.seo + datosUsuario.diseno + datosUsuario.copy + datosUsuario.ux + datosUsuario.ui + datosUsuario.asesoria;
+    const servicios = [datosUsuario.desarrollo, datosUsuario.ads, datosUsuario.seo, datosUsuario.diseno, datosUsuario.copy, datosUsuario.ux, datosUsuario.ui, datosUsuario.asesoria];
+    const cobrosMensuales = servicios.reduce((acc, val) => acc + val, 0);
     const horasTrabajo = datosUsuario.horasTrabajo;
     const diasTrabajo = datosUsuario.diasTrabajo;
     const horasMes = 160; // 40 horas por semana * 4 semanas
     const costoHora = cobrosMensuales / horasMes; 
     const ingresoMinimo = costoHora * horasTrabajo * diasTrabajo;
-    return Math.floor(ingresoMinimo); // Redondear para obtener un número entero
+    return Math.floor(ingresoMinimo); // Redondear para obtener un número entero 
 }
 
-// Función para mostrar el resultado con SweetAlert
+// Aplicación de funciones y condicionales
 function mostrarResultado(nombre, valorFreelance) {
-    // Calcular retención aplicada del 13.75%
+    // Calculo retención aplicada del 13.75%
     const retencion = Math.floor(valorFreelance * 0.1375);
-    // Calcular valor líquido (con retención)
+    // Calculo valor líquido (con retención)
     const valorLiquido = valorFreelance - retencion;
-    // Calcular valor bruto (sin retención)
+    // Calculo valor bruto (sin retención)
     const valorBruto = valorFreelance + retencion;
-
+// Generación del DOM para cargar al ejecutar el código de fomra dinámica
     Swal.fire({
         title: 'Resultado',
         html: `
@@ -35,7 +36,7 @@ function mostrarResultado(nombre, valorFreelance) {
     });
 }
 
-// Este bloque de código debe ejecutarse después de que se cargue el DOM
+// Generación del DOM para cargar al ejecutar el código de fomra dinámica
 document.addEventListener('DOMContentLoaded', function () {
     // Capturar evento del botón Calcular
     document.getElementById('calcularBtn').addEventListener('click', function() {
@@ -75,4 +76,21 @@ document.addEventListener('DOMContentLoaded', function () {
         let valorFreelance = calcularValorFreelance(datosUsuario);
         mostrarResultado(nombre, valorFreelance);
     });
+
+    // Manejo de promesas y carga de datos desde datos.json
+    fetch('./datos.json')
+        .then(response => response.json())
+        .then(datos => {
+            document.getElementById('desarrollo').value = datos.desarrollo;
+            document.getElementById('ads').value = datos.ads;
+            document.getElementById('seo').value = datos.seo;
+            document.getElementById('diseno').value = datos.diseno;
+            document.getElementById('copy').value = datos.copy;
+            document.getElementById('ux').value = datos.ux;
+            document.getElementById('ui').value = datos.ui;
+            document.getElementById('asesoria').value = datos.asesoria;
+            document.getElementById('diasTrabajo').value = datos.diasTrabajo;
+            document.getElementById('horasTrabajo').value = datos.horasTrabajo;
+        })
+        .catch(error => console.error('Error al cargar los datos:', error));
 });
